@@ -4,7 +4,7 @@ import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor(
     private val githubJsonService: GithubJsonService
-): BaseDataSource() {
+) : BaseDataSource() {
 
-    suspend fun getDataList() = getResult { githubJsonService.getDataList() }
+    suspend fun getDataList() = getResult { githubJsonService.getResponseGson() }
 }

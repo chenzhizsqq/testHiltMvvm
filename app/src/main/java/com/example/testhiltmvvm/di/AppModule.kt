@@ -16,6 +16,11 @@ import javax.inject.Singleton
  * 为整个APP创建 一个引用的Module
  * @Provides就是专门为整个系统封装不用创建的对象
  * 只要用@Inject来声名，就可以自动为你封装好
+ *
+ * 生命周期的说明
+ * SingletonComponent - 生命周期是当前整个APP
+ * ActivityComponent - Activity
+ * FragmentComponent - Fragment
  */
 @Module
 @InstallIn(SingletonComponent::class)
@@ -32,7 +37,7 @@ object AppModule {
      */
     @Singleton
     @Provides
-    fun provideRetrofit(gson: Gson) : Retrofit = Retrofit.Builder()
+    fun provideRetrofit(gson: Gson): Retrofit = Retrofit.Builder()
         .baseUrl("https://my-json-server.typicode.com/")
         .addConverterFactory(GsonConverterFactory.create(gson))
         .build()
@@ -42,9 +47,8 @@ object AppModule {
      */
     @Provides
     fun provideGithubJsonService(retrofit: Retrofit): GithubJsonService = retrofit.create(
-        GithubJsonService::class.java)
-
-
+        GithubJsonService::class.java
+    )
 
 
     /**
@@ -53,5 +57,6 @@ object AppModule {
      */
     @Singleton
     @Provides
-    fun provideRemoteDataSource(githubJsonService: GithubJsonService) = RemoteDataSource(githubJsonService)
+    fun provideRemoteDataSource(githubJsonService: GithubJsonService) =
+        RemoteDataSource(githubJsonService)
 }

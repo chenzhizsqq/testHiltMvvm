@@ -1,7 +1,6 @@
 package com.example.testhiltmvvm.data.remote
 
 import com.example.testhiltmvvm.data.entities.PostsData
-import com.example.testhiltmvvm.data.entities.PostsDataList
 import okhttp3.ResponseBody
 import retrofit2.Response
 import retrofit2.http.GET
@@ -26,9 +25,6 @@ interface GithubJsonService {
     @GET("/chenzhizsqq/testJson/posts")
     suspend fun getResponseGson(): Response<List<PostsData>>
 
-
-    @GET("/chenzhizsqq/testJson/posts")
-    suspend fun getDataList(): Response<PostsDataList>
 
     @GET("/chenzhizsqq/testJson/posts")
     suspend fun getResponseMoshi(): Response<List<PostsData>>
