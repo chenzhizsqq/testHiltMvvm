@@ -1,7 +1,6 @@
 package com.example.testhiltmvvm.data.remote
 
 
-import android.util.Log
 import com.example.testhiltmvvm.utils.DataResource
 import retrofit2.Response
 
@@ -21,11 +20,6 @@ abstract class BaseDataSource {
     }
 
     private fun <T> error(message: String): DataResource<T> {
-        return DataResource.error("Network call has failed for a following reason: $message")
-    }
-
-    private fun <T> error(message: String, data: T): DataResource<T> {
-        Log.e("TAG", "error data: $data")
         return DataResource.error("Network call has failed for a following reason: $message")
     }
 

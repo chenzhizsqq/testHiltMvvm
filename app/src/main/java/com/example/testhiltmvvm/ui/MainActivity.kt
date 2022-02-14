@@ -1,4 +1,4 @@
-package com.example.testhiltmvvm
+package com.example.testhiltmvvm.ui
 
 import android.os.Bundle
 import android.util.Log
