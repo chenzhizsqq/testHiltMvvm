@@ -2,6 +2,7 @@ package com.example.testhiltmvvm.di
 
 import com.example.testhiltmvvm.data.remote.GithubJsonService
 import com.example.testhiltmvvm.data.remote.RemoteDataSource
+import com.example.testhiltmvvm.ui.MainViewModel
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -59,4 +60,12 @@ object AppModule {
     @Provides
     fun provideRemoteDataSource(githubJsonService: GithubJsonService) =
         RemoteDataSource(githubJsonService)
+
+
+    /**
+     * 对应 MainViewModel @Inject constructor()
+     */
+    @Provides
+    fun provideMainViewModel() =
+        MainViewModel()
 }

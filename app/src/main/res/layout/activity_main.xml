@@ -54,6 +54,18 @@
                 android:layout_margin="10dp"
                 android:text="jsonGson 用获取json时用底层封装"
                 android:id="@+id/jsonGsonBaseDataSource"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="jsonGson 用获取json时用底层封装 mvvm"
+                android:id="@+id/jsonGsonBaseDataSourceMvvm"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="jsonGson 用获取json时用底层封装 mvvm flow"
+                android:id="@+id/jsonGsonBaseDataSourceMvvmFlow"/>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -7,10 +7,8 @@ import com.example.testhiltmvvm.data.remote.GithubJsonService
 import com.example.testhiltmvvm.data.remote.RemoteDataSource
 import com.example.testhiltmvvm.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.*
 import retrofit2.Retrofit
 import javax.inject.Inject
 
@@ -29,6 +27,9 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var mGithubJsonService: GithubJsonService
 
+    @Inject
+    lateinit var mMainViewModel: MainViewModel
+
     private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,8 +40,42 @@ class MainActivity : AppCompatActivity() {
 
         binding.jsonGsonBaseDataSource.setOnClickListener { jsonGsonBaseDataSource() }
 
+        binding.jsonGsonBaseDataSourceMvvm.setOnClickListener { jsonGsonBaseDataSourceMvvm() }
+
+        binding.jsonGsonBaseDataSourceMvvmFlow.setOnClickListener { jsonGsonBaseDataSourceMvvmFlow() }
+
+        mMainViewModel.postsDataList.observe(this, {
+            binding.HelloWorld.text = it.toString()
+        })
     }
 
+    private fun jsonGsonBaseDataSourceMvvmFlow() {
+        runBlocking {
+            flow {
+                val getDataList = mRemoteDataSource.getDataList()
+                emit(getDataList.data)
+            }
+                .onStart { Log.e(TAG, "flowViewModel: Starting flow") }
+                .onEach {
+                    Log.e(TAG, "flowViewModel: onEach : $it")
+                    if (it != null) {
+                        mMainViewModel.setFlowData(it)
+                    }
+                }
+                .catch { Log.e(TAG, "jsonGsonBaseDataSourceMvvmFlow: error:" + it.message) }
+                .onCompletion { if (it == null) Log.e(TAG, "Completed successfully") }
+                .collect()
+        }
+    }
+
+    private fun jsonGsonBaseDataSourceMvvm() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val getDataList = mRemoteDataSource.getDataList()
+            withContext(Dispatchers.Main) {
+                getDataList.data?.let { mMainViewModel.setFlowData(it) }
+            }
+        }
+    }
 
     private fun jsonGsonBaseDataSource() {
         CoroutineScope(Dispatchers.IO).launch {
